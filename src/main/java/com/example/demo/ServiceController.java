@@ -41,8 +41,8 @@ public class ServiceController {
     @ResponseBody
     public int findByUsername(@RequestBody Map<String,String> body){
 
-        String usernmae = body.get("username");
-        return userRepository.findAllByUsername(usernmae).size();
+        String username = body.get("username");
+        return userRepository.findAllByUsername(username).size();
 
 
     }
