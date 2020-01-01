@@ -14,6 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="_id")
     private int id;
 
     @Column(name = "email_address")
