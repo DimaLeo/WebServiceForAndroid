@@ -24,10 +24,40 @@ public class ServiceController {
         String password = body.get("password");
 
         User user = new User(email,username,password);
-        return userRepository.save(user);
+        User userToSend = new User(9999,email,username,password);
+        userRepository.save(user);
+        return userToSend;
 
     }
 
+    @PostMapping(value = "/users/getUsername",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getUsername(@RequestBody Map<String,String> body){
+        String username;
+        String emailReceived = body.get("email");
+        User user = userRepository.findUserByEmail(emailReceived);
+        username= user.getUsername();
+
+        return username;
+    }
+
+    @PostMapping(value = "/users/checkPassword",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean checkPassword(@RequestBody Map<String,String> body){
+        boolean passwordCorrect = false;
+        String email = body.get("email");
+        String receivedPassword = body.get("password");
+
+        User user = userRepository.findUserByEmail(email);
+
+        if(user.getPassword().equals(receivedPassword)){
+
+            passwordCorrect = true;
+        }
+
+
+        return passwordCorrect;
+    }
 
     @PostMapping(value = "users/findEmail",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
