@@ -23,6 +23,8 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "home_config")
+    private int home_config;
 
     public User(){}
 
@@ -30,6 +32,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.home_config=0;
     }
 
     public User(int id, String email, String username, String password) {
@@ -37,6 +40,15 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.home_config = 0;
+    }
+
+    public int getHome_config() {
+        return home_config;
+    }
+
+    public void setHome_config(int home_config) {
+        this.home_config = home_config;
     }
 
     public int getId() {
