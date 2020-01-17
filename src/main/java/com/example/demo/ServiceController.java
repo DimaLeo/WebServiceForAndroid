@@ -15,6 +15,8 @@ public class ServiceController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    DeviceRepository deviceRepository;
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -29,6 +31,25 @@ public class ServiceController {
         userRepository.save(user);
         return userToSend;
 
+    }
+
+    @PostMapping(value = "/devices",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Device insertDevice(@RequestBody Map<String,String> body){
+
+        Device device;
+
+        String device_name = body.get("device_name");
+        String device_type = body.get("device_type");
+        Integer device_brand = Integer.parseInt(body.get("device_brand"));
+        Integer device_wattage = Integer.parseInt(body.get("device_wattage"));
+        Integer user_id = Integer.parseInt(body.get("user_id"));
+
+        device = new Device(device_name,device_type,device_brand,device_wattage,user_id);
+
+        deviceRepository.save(device);
+
+        return device;
     }
 
     @PostMapping(value = "/users/getUsername",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -105,6 +126,24 @@ public class ServiceController {
         user.setHome_config(1);
         userRepository.save(user);
         return user;
+    }
+
+    @PutMapping(value = "/devices/activityStatusChanged/{device_id}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Device turn_on_off(@PathVariable Integer device_id,@RequestBody Map<String,String> body){
+
+        Device device = deviceRepository.findOne(device_id);
+        if(device.getDevice_activity_status()==0){
+            device.setDevice_activity_status(1);
+        }
+        else if(device.getDevice_activity_status()==1){
+            device.setDevice_activity_status(0);
+        }
+
+        deviceRepository.save(device);
+
+        return device;
+
     }
 
 
