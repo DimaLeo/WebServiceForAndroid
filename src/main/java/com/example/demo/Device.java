@@ -26,18 +26,21 @@ public class Device {
     @Column(name="device_runtime")
     private double device_runtime;
 
-    @Column(name="user_id")
-    private int user_id;
+    @Column(name="username")
+    private String username;
 
     @Column(name="device_activity_status")
     private int device_activity_status;
 
-    public Device(String device_name, String device_type, int device_brand, int device_wattage, int user_id) {
+    public Device(String device_name, String device_type, int device_brand, int device_wattage, String username) {
         this.device_name = device_name;
         this.device_type = device_type;
         this.device_brand = device_brand;
         this.device_wattage = device_wattage;
-        this.user_id = user_id;
+        this.username = username;
+    }
+
+    public Device() {
     }
 
     public int getDevice_activity_status() {
@@ -96,11 +99,11 @@ public class Device {
         this.device_runtime = device_runtime;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

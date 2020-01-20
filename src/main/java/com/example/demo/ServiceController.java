@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +44,9 @@ public class ServiceController {
         String device_type = body.get("device_type");
         Integer device_brand = Integer.parseInt(body.get("device_brand"));
         Integer device_wattage = Integer.parseInt(body.get("device_wattage"));
-        Integer user_id = Integer.parseInt(body.get("user_id"));
+        String username = body.get("username");
 
-        device = new Device(device_name,device_type,device_brand,device_wattage,user_id);
+        device = new Device(device_name,device_type,device_brand,device_wattage,username);
 
         deviceRepository.save(device);
 
@@ -81,7 +82,7 @@ public class ServiceController {
         return passwordCorrect;
     }
 
-    @PostMapping(value = "users/findEmail",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/users/findEmail",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public int findByEmail(@RequestBody Map<String,String> body){
 
@@ -89,7 +90,17 @@ public class ServiceController {
         return userRepository.findAllByEmail(email).size();
     }
 
-    @PostMapping(value = "users/findUsername",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/findDevices", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Device> getAllDevicesByUsername(@RequestBody Map<String,String> body){
+
+        String username = body.get("username");
+
+        return deviceRepository.findAllByUsername(username);
+
+    }
+    
+    @PostMapping(value = "/users/findUsername",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public int findByUsername(@RequestBody Map<String,String> body){
 
@@ -99,7 +110,7 @@ public class ServiceController {
 
     }
 
-    @PostMapping(value="users/getHomeConfig",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/users/getHomeConfig",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public int findUserConfig(@RequestBody Map<String,String> body){
         User user;
@@ -138,6 +149,7 @@ public class ServiceController {
         }
         else if(device.getDevice_activity_status()==1){
             device.setDevice_activity_status(0);
+            device.setDevice_runtime(Double.parseDouble(body.get("device_runtime")));
         }
 
         deviceRepository.save(device);
@@ -145,6 +157,8 @@ public class ServiceController {
         return device;
 
     }
+
+
 
 
 }
