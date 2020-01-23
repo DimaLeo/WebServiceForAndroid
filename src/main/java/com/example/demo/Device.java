@@ -18,7 +18,7 @@ public class Device {
     private String device_type;
 
     @Column(name="device_brand")
-    private int device_brand;
+    private String device_brand;
 
     @Column(name="device_wattage")
     private int device_wattage;
@@ -32,7 +32,7 @@ public class Device {
     @Column(name="device_activity_status")
     private int device_activity_status;
 
-    public Device(String device_name, String device_type, int device_brand, int device_wattage, String username) {
+    public Device(String device_name, String device_type, String device_brand, int device_wattage, String username) {
         this.device_name = device_name;
         this.device_type = device_type;
         this.device_brand = device_brand;
@@ -75,11 +75,11 @@ public class Device {
         this.device_type = device_type;
     }
 
-    public int getDevice_brand() {
+    public String getDevice_brand() {
         return device_brand;
     }
 
-    public void setDevice_brand(int device_brand) {
+    public void setDevice_brand(String device_brand) {
         this.device_brand = device_brand;
     }
 

@@ -42,7 +42,7 @@ public class ServiceController {
 
         String device_name = body.get("device_name");
         String device_type = body.get("device_type");
-        Integer device_brand = Integer.parseInt(body.get("device_brand"));
+        String device_brand = body.get("device_brand");
         Integer device_wattage = Integer.parseInt(body.get("device_wattage"));
         String username = body.get("username");
 
