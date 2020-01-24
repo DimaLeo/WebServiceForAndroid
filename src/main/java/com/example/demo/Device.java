@@ -32,6 +32,9 @@ public class Device {
     @Column(name="device_activity_status")
     private int device_activity_status;
 
+    @Column(name="start_of_session")
+    private long start_of_session;
+
     public Device(String device_name, String device_type, String device_brand, int device_wattage, String username) {
         this.device_name = device_name;
         this.device_type = device_type;
@@ -105,5 +108,13 @@ public class Device {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public long getStart_of_session() {
+        return start_of_session;
+    }
+
+    public void setStart_of_session(long start_of_session) {
+        this.start_of_session = start_of_session;
     }
 }

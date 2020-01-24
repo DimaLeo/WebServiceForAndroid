@@ -146,10 +146,15 @@ public class ServiceController {
         Device device = deviceRepository.findOne(device_id);
         if(device.getDevice_activity_status()==0){
             device.setDevice_activity_status(1);
+            device.setStart_of_session(Long.parseLong(body.get("timestamp")));
         }
         else if(device.getDevice_activity_status()==1){
             device.setDevice_activity_status(0);
-            device.setDevice_runtime(Double.parseDouble(body.get("device_runtime")));
+            Long end_of_session = Long.parseLong(body.get("timestamp"));
+            Long runtime = end_of_session-device.getStart_of_session();
+            double temp = (double)(((runtime/1000)/60)%60);
+            double runtime_mins = temp;
+            device.setDevice_runtime(device.getDevice_runtime()+runtime_mins);
         }
 
         deviceRepository.save(device);
